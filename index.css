@@ -4,6 +4,10 @@ html, body {
     font-family: 'Roboto', sans-serif;
 }
 
+html{
+    height: -webkit-fill-available;
+}
+
 * {box-sizing: border-box;}
 
 /* typography and icons */
