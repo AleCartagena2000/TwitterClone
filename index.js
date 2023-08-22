@@ -65,7 +65,7 @@ function handleTweetBtnClick(){
     const tweetUuid = uuidv4()
     if(tweetInput.value){
         tweetsData.unshift({
-            handle: `@Scrimba`,
+            handle: `@User`,
             profilePic: `images/scrimbalogo.png`,
             likes: 0,
             retweets: 0,
@@ -82,7 +82,7 @@ function handleTweetBtnClick(){
 
 function handleReplyBtnClick(tweetId){
     const replyInput = document.querySelectorAll('#tweet-reply-input')
-    const tweetUuid = uuidv4()
+    const tweetReplyUuid = uuidv4()
     
     const targetTweetObject = tweetsData.filter(function(tweet) {
         return tweetId === tweet.uuid
@@ -91,10 +91,10 @@ function handleReplyBtnClick(tweetId){
     replyInput.forEach(function(reply){
         if(reply.value) {
             targetTweetObject.replies.push({
-                handle: `@Scrimba`,
+                handle: `@User`,
                 profilePic: `images/scrimbalogo.png`,
                 tweetText: reply.value,
-                uuid: tweetUuid
+                uuid: tweetReplyUuid
             })
             render()
             handleReplyClick(tweetId)
@@ -109,7 +109,7 @@ function renderTrashIcon(){
     
     trashIcons.forEach(function(icon){
         tweetsData.forEach(function(tweet){
-            if (tweet.handle === '@Scrimba'){
+            if (tweet.handle === '@User'){
                 icon.classList.remove('hidden')
             }
         })
@@ -134,7 +134,7 @@ function renderReplyTrashIcon(){
     trashIconsReply.forEach(function(icon) {
         tweetsData.forEach(function(tweet) {
             tweet.replies.forEach(function(reply) {
-                if (reply.handle === '@Scrimba'){
+                if (reply.handle === '@User'){
                     icon.classList.remove('hidden')
                 }
             })
@@ -146,15 +146,15 @@ function deleteReplyTweet(tweetReplyId){
     let count = 0;
     let tweetId = ''
     
-    
     tweetsData.forEach(function(tweet) {
         tweet.replies.forEach(function(reply) {
             if (reply.uuid === tweetReplyId) {
                 tweetId = tweet.uuid
-                tweet.replies.splice(-1)
+                tweet.replies.splice(count, 1)
             }
             count++
         })
+        count = 0;
         
     })
     
@@ -190,7 +190,7 @@ function getFeedHtml(){
             <div>
                 <div class="tweet-handle-delete tweet-handle-delete-reply">
                     <p class="handle">${reply.handle}</p>
-                    <span class="hidden" id="${reply.handle === '@Scrimba' ? 'user-trash-icon-reply' : 'trash-icon'}"><i class="fa-solid fa-trash hidden" data-trash-icon-reply="${reply.uuid}"></i></span>
+                    <span class="hidden" id="${reply.handle === '@User' ? 'user-trash-icon-reply' : 'trash-icon'}"><i class="fa-solid fa-trash hidden" data-trash-icon-reply="${reply.uuid}"></i></span>
                 </div>
                 <p class="tweet-text tweet-text-reply">${reply.tweetText}</p>
             </div>
@@ -208,7 +208,7 @@ function getFeedHtml(){
         <div>
             <div class="tweet-handle-delete">
                 <p class="handle">${tweet.handle}</p>
-                <span class="hidden" id="${tweet.handle === '@Scrimba' ? 'user-trash-icon' : 'trash-icon'}"><i class="fa-solid fa-trash hidden" data-trash-icon="${tweet.uuid}"></i></span>
+                <span class="hidden" id="${tweet.handle === '@User' ? 'user-trash-icon' : 'trash-icon'}"><i class="fa-solid fa-trash hidden" data-trash-icon="${tweet.uuid}"></i></span>
             </div>
             <p class="tweet-text">${tweet.tweetText}</p>
             <div class="tweet-details">
